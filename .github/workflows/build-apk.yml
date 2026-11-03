@@ -261,7 +261,12 @@ jobs:
               z.extractall('.')
           PYTHON
       - name: Install Android platform
-        run: sdkmanager 'platforms;android-37' 'build-tools;36.0.0'
+        run: |
+          sdkmanager 'platforms;android-37.0' 'build-tools;36.0.0'
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
       - name: Check source, name and icons
         run: python3 scripts/check-source.py
       - name: Build APK
