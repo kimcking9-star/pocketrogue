@@ -270,7 +270,9 @@ jobs:
       - name: Check source, name and icons
         run: python3 scripts/check-source.py
       - name: Build APK
-        run: gradle --no-daemon --console=plain :app:assembleRelease :app:lintRelease
+        run: |
+          sed -i '/android:windowLightNavigationBar/d' app/src/main/res/values/styles.xml
+          gradle --no-daemon --console=plain :app:assembleRelease :app:lintRelease
       - name: Verify and collect APK
         run: |
           set -eu
